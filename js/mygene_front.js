@@ -115,8 +115,8 @@ jQuery(document).ready(function() {
     // query examples
     jQuery('.query-example a').click(function() {
         if(jQuery(this).data().example == "1") { 
-            jQuery("#main-input").val("cdk?");
-            jQuery("#fields-input").val("");
+            jQuery("#main-input").val("symbol:cdk?");
+            jQuery("#fields-input").val("symbol, ensembl.gene");
             jQuery("#size-input").val("50").selectmenu('refresh', true);
         }
         else if(jQuery(this).data().example == "2") { 
