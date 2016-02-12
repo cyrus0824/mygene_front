@@ -98,36 +98,34 @@ jQuery(document).ready(function() {
         });
     });
 
-    // variant examples
-    jQuery('.variant-example a').click(function() {
+    // gene examples
+    jQuery('.gene-example a').click(function() {
         if(jQuery(this).data().example == "1") {
-            jQuery("#main-input").val("chr1:g.35366C>T");
+            jQuery("#main-input").val("1017");
             jQuery("#fields-input").val("");
         }
         else if(jQuery(this).data().example == "2") { 
-            jQuery("#main-input").val("chr2:g.17142_17143insA");
+            jQuery("#main-input").val("ENSG00000123374");
             jQuery("#fields-input").val("");
         }
         else if(jQuery(this).data().example == "3") { 
-            jQuery("#main-input").val("chrMT:g.8271_8279del");
-            jQuery("#fields-input").val("");
         }
     });
 
     // query examples
     jQuery('.query-example a').click(function() {
         if(jQuery(this).data().example == "1") { 
-            jQuery("#main-input").val("dbnsfp.genename:CDK*");
+            jQuery("#main-input").val("cdk?");
             jQuery("#fields-input").val("");
-            jQuery("#size-input").val("10").selectmenu('refresh', true);
+            jQuery("#size-input").val("50").selectmenu('refresh', true);
         }
         else if(jQuery(this).data().example == "2") { 
-            jQuery('#main-input').val("exac.ac.ac_adj:[76640 TO 80000]");
+            jQuery('#main-input').val("tumor AND suppressor");
             jQuery("#fields-input").val("");
             jQuery("#size-input").val("10").selectmenu('refresh', true);
         }
         else if(jQuery(this).data().example == "3") { 
-            jQuery('#main-input').val("chr1:69000-70000");
+            jQuery('#main-input').val("uniprot:P24941");
             jQuery("#fields-input").val("");
             jQuery("#size-input").val("10").selectmenu('refresh', true);
         }
@@ -150,12 +148,12 @@ jQuery(document).ready(function() {
             // HGVS ID query
             errorHandler("Query executing . . .", "executing");
             if(queryText.indexOf(",") == -1) {
-                // get to variant endpoint
-                jQuery.get(endpointBase + '/variant/' + queryText + '?fields=' + fieldsText).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
+                // get to gene endpoint
+                jQuery.get(endpointBase + '/gene/' + queryText + '?fields=' + fieldsText).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
             }
             else {
-                // post to variant endpoint
-                jQuery.post(endpointBase + '/variant', {'ids': queryText, 'fields': fieldsText}).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Error retrieving annotations.", "error");});
+                // post to gene endpoint
+                jQuery.post(endpointBase + '/gene', {'ids': queryText, 'fields': fieldsText}).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Error retrieving annotations.", "error");});
             }
         }
         else if(searchType == 2) {
@@ -167,7 +165,7 @@ jQuery(document).ready(function() {
         else if(searchType == 3) {
             // metadata query
             errorHandler("Query executing . . .", "executing");
-            jQuery.get(endpointBase + '/metadata').done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve MyVariant database metadata.  API error.", "error");});
+            jQuery.get(endpointBase + '/metadata').done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve MyGene database metadata.  API error.", "error");});
         }
         else if(searchType == 4) {
             // available fields query
@@ -184,13 +182,11 @@ jQuery(document).ready(function() {
             if(jQuery(this).val() == 1) {
                 // Query by gene ID
                 jQuery('#main-input').val("");
-                jQuery('#main-input').attr('placeholder', 'Enter comma separated gene ids here');
+                jQuery('#main-input').attr('placeholder', 'Enter comma separated Entrez or Ensembl gene ids here');
                 jQuery('#main-input').prop('disabled', false);
                 jQuery("#fields-input").prop('disabled', false);
                 jQuery("#size-input-button").hide();
                 jQuery("label[for='size-input-button']").hide();
-                jQuery("#genome-assembly").hide();
-                jQuery("label[for='genome-assembly']").hide();
                 jQuery(".examples").hide();
                 jQuery(".gene-example").show();
             }
@@ -201,8 +197,6 @@ jQuery(document).ready(function() {
                 jQuery("#fields-input").prop('disabled', false);
                 jQuery("#size-input-button").show();
                 jQuery("label[for='size-input-button']").show();
-                jQuery("#genome-assembly").show();
-                jQuery("label[for='genome-assembly']").show();
                 jQuery(".examples").hide();
                 jQuery(".query-example").show();
             }
@@ -214,8 +208,6 @@ jQuery(document).ready(function() {
                 jQuery("#fields-input").prop('disabled', true);
                 jQuery("#size-input-button").hide();
                 jQuery("label[for='size-input-button']").hide();
-                jQuery("#genome-assembly").hide();
-                jQuery("label[for='genome-assembly']").hide();
                 jQuery(".examples").hide();
                 jQuery(".filler").show();
             }
@@ -227,8 +219,6 @@ jQuery(document).ready(function() {
                 jQuery("#fields-input").prop('disabled', true);
                 jQuery("#size-input-button").hide();
                 jQuery("label[for='size-input-button']").hide();
-                jQuery("#genome-assembly").hide();
-                jQuery("label[for='genome-assembly']").hide();
                 jQuery(".examples").hide();
                 jQuery(".filler").show();
             }

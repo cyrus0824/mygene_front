@@ -77,7 +77,7 @@ body {
     position: absolute;
     z-index: 0;
     top: 68px;
-    left: 12px;
+    left: 19px;
     float: left;
     font-family: 'Open Sans', sans-serif;
 }  
@@ -98,8 +98,8 @@ body {
 .ui-widget {
     font-size: 0.8em;
 }
-.ui-selectmenu-button {
-    width: 140px !important;
+#search-type-button {
+    width: 145px !important;
     float: left;
     margin-right: 8px;
 }
@@ -117,7 +117,7 @@ body {
 .second {
     clear: left;
     margin-top: 0px;
-    margin-left: 244px;
+    margin-left: 249px;
 }
 .third {
     clear: left;
@@ -167,7 +167,7 @@ body {
     display: none;
     float: left;
     font-size: 0.7em;
-    width: 63px !important;
+    width: 65px !important;
     height: 21px;
     margin-left: 5px;
 }
