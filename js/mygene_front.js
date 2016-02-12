@@ -1,5 +1,6 @@
 var theseFields = [];
-var serverAddress = 'myvariant.info';
+var serverAddress = 'mygene.info';
+var apiVersion = 'v2';
 
 function split( val ) {
     return val.split( /,\s*/ );
@@ -129,8 +130,6 @@ jQuery(document).ready(function() {
             jQuery('#main-input').val("chr1:69000-70000");
             jQuery("#fields-input").val("");
             jQuery("#size-input").val("10").selectmenu('refresh', true);
-            jQuery("#hg19").prop("checked", true);
-            jQuery("#genome-assembly").buttonset('refresh', true);
         }
         else if(jQuery(this).data().example == "help") { 
             
@@ -141,7 +140,7 @@ jQuery(document).ready(function() {
     jQuery('#search-button').button().click(function() {
         // Search button click handler
         var searchType = jQuery('#search-type').val();
-        var endpointBase = 'https://' + serverAddress;
+        var endpointBase = 'https://' + serverAddress + '/' + apiVersion;
         var queryText = encodeURIComponent(jQuery('#main-input').val());
         var fieldsText = encodeURIComponent(jQuery('#fields-input').val());
         if(!(fieldsText)) {fieldsText = 'all';}
@@ -152,21 +151,18 @@ jQuery(document).ready(function() {
             errorHandler("Query executing . . .", "executing");
             if(queryText.indexOf(",") == -1) {
                 // get to variant endpoint
-                jQuery.get(endpointBase + '/v1/variant/' + queryText + '?fields=' + fieldsText).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
+                jQuery.get(endpointBase + '/variant/' + queryText + '?fields=' + fieldsText).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
             }
             else {
                 // post to variant endpoint
-                jQuery.post(endpointBase + '/v1/variant', {'ids': queryText, 'fields': fieldsText}).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Error retrieving annotations.", "error");});
+                jQuery.post(endpointBase + '/variant', {'ids': queryText, 'fields': fieldsText}).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Error retrieving annotations.", "error");});
             }
         }
         else if(searchType == 2) {
             var querySize = jQuery('#size-input').val();
-            var gaType = jQuery('#genome-assembly input:checked').val();
-            if(gaType == 'hg38') {gaType = '&hg38=True';}
-            else {gaType = '';}
             // Full text query
             errorHandler("Query executing . . .", "executing");
-            jQuery.get(endpointBase + '/v1/query?q=' + queryText + '&fields=' + fieldsText + '&size=' + querySize + gaType).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve results for query " + jQuery('#main-input').val() + ".", "error");});
+            jQuery.get(endpointBase + '/query?q=' + queryText + '&fields=' + fieldsText + '&size=' + querySize).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve results for query " + jQuery('#main-input').val() + ".", "error");});
         }
         else if(searchType == 3) {
             // metadata query
@@ -186,9 +182,9 @@ jQuery(document).ready(function() {
     jQuery('#search-type').selectmenu({
         change: function() {
             if(jQuery(this).val() == 1) {
-                // Query by HGVS ID
+                // Query by gene ID
                 jQuery('#main-input').val("");
-                jQuery('#main-input').attr('placeholder', 'Enter comma separated HGVS ids here');
+                jQuery('#main-input').attr('placeholder', 'Enter comma separated gene ids here');
                 jQuery('#main-input').prop('disabled', false);
                 jQuery("#fields-input").prop('disabled', false);
                 jQuery("#size-input-button").hide();
@@ -196,7 +192,7 @@ jQuery(document).ready(function() {
                 jQuery("#genome-assembly").hide();
                 jQuery("label[for='genome-assembly']").hide();
                 jQuery(".examples").hide();
-                jQuery(".variant-example").show();
+                jQuery(".gene-example").show();
             }
             else if(jQuery(this).val() == 2) {
                 jQuery('#main-input').val("");
