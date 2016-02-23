@@ -139,18 +139,17 @@ jQuery(document).ready(function() {
         // Search button click handler
         var searchType = jQuery('#search-type').val();
         var endpointBase = 'https://' + serverAddress + '/' + apiVersion;
-        var queryText = encodeURIComponent(jQuery('#main-input').val());
+        var queryText = jQuery('#main-input').val();
         var fieldsText = jQuery('#fields-input').val();
         if(!(fieldsText)) {fieldsText = 'all';}
         if(endsWith(fieldsText, ', ')) {fieldsText = fieldsText.substring(0, fieldsText.length - 2);}
         if(endsWith(fieldsText, ',')) {fieldsText = fieldsText.substring(0, fieldsText.length - 1);}
-        fieldsText = encodeURIComponent(fieldsText);
         if(searchType == 1) {
             // HGVS ID query
             errorHandler("Query executing . . .", "executing");
             if(queryText.indexOf(",") == -1) {
                 // get to gene endpoint
-                jQuery.get(endpointBase + '/gene/' + queryText + '?fields=' + fieldsText).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
+                jQuery.get(endpointBase + '/gene/' + encodeURIComponent(queryText) + '?fields=' + encodeURIComponent(fieldsText)).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve annotation " + jQuery('#main-input').val() + ".  ", "error");});
             }
             else {
                 // post to gene endpoint
@@ -161,7 +160,7 @@ jQuery(document).ready(function() {
             var querySize = jQuery('#size-input').val();
             // Full text query
             errorHandler("Query executing . . .", "executing");
-            jQuery.get(endpointBase + '/query?q=' + queryText + '&fields=' + fieldsText + '&size=' + querySize).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve results for query " + jQuery('#main-input').val() + ".", "error");});
+            jQuery.get(endpointBase + '/query?q=' + encodeURIComponent(queryText) + '&fields=' + encodeURIComponent(fieldsText) + '&size=' + querySize).done(successHandler).fail(function(jqXHR, statusText, errorThrown) {errorHandler("Couldn't retrieve results for query " + jQuery('#main-input').val() + ".", "error");});
         }
         else if(searchType == 3) {
             // metadata query
