@@ -82,21 +82,6 @@ jQuery(document).ready(function() {
             console.log("Error getting available fields.");
         }
     );
-    // genome assembly
-    jQuery('#genome-assembly').buttonset();
-    jQuery("#hg19").button("option", "icons", { primary: 'ui-icon-check' });
-    jQuery("#hg38").button("option", "icons", { primary: 'ui-icon-check' });
-    jQuery("label[for='hg38'] span.ui-icon-check").hide();
-
-    jQuery("#genome-assembly input[type=radio]").on("click", function () {
-        jQuery("#genome-assembly input[type=radio]").each(function () {
-            if (jQuery(this).is(":checked")) {
-                jQuery("label[for='" + jQuery(this).attr('id') + "'] span.ui-icon-check").show();
-            } else {
-                jQuery("label[for='" + jQuery(this).attr('id') + "'] span.ui-icon-check").hide();
-            }
-        });
-    });
 
     // gene examples
     jQuery('.gene-example a').click(function() {
